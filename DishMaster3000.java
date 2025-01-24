@@ -1,6 +1,10 @@
 // Keeping track of dishes/chores done around the apartment.
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DishMaster3000 {
 
@@ -99,8 +103,39 @@ public class DishMaster3000 {
 
     public static void oldUser() {
         System.out.println("Please type the name of the file below :)");
-        
+        readFile(scanner.nextLine());
+    }
 
+    public static void readFile(String fileName) {
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            // read user data
+            if (scanner.hasNextLine()) {
+                String[] userData = scanner.nextLine().split(",");
+                USER.setName(userData[0]);
+                USER.setDishCount(Integer.parseInt(userData[1]));
+                USER.setStanding();
+            }
+            // read roommate data
+            if (scanner.hasNextLine()) {
+                String[] roommateData = scanner.nextLine().split(",");
+                ROOMMATE.setName(roommateData[0]);
+                ROOMMATE.setDishCount(Integer.parseInt(roommateData[1]));
+                ROOMMATE.setStanding();
+            }
+            System.out.println("File " + fileName + " read successfully!");
+        } catch (FileNotFoundException e) {
+            System.err.println("I couldn't find that file! " + e.getMessage());
+        }
+    }
+
+    public static void writeFile(String fileName) {
+        try(FileWriter writer = new FileWriter(fileName)) {
+            writer.write(USER.toString() + "\n");
+            writer.write(ROOMMATE.toString() + "\n");
+            System.out.println("Save successful!");
+        } catch (IOException e) {
+            System.err.println("Something went wrong :( " + e.getMessage());
+        }
     }
         
     public static void main(String[] args) {

@@ -80,4 +80,9 @@ public class Person {
                 System.out.println(name + " has washed the dishes " + dishCount + " times!");
         }
     }
+
+    @Override
+    public String toString() {
+        return name + "," + dishCount + "," + standing;
+    }
 }
