@@ -64,6 +64,11 @@ public class Person {
             standing = "The slightly worse roommate";
     }
 
+    public void add() {
+        dishCount += 1;
+        total += 1;
+    }
+
     public void display(boolean displayPercent) {
         System.out.println(name + " - \"" + standing + "\"");
         if (displayPercent) {

@@ -13,6 +13,8 @@ public class DishMaster3000 {
     static final Person USER = new Person();
     static final Person ROOMMATE = new Person();
     static Scanner scanner = new Scanner(System.in);
+    static boolean loop = true;
+    static boolean displayPercent = false;
 
     /**
      * Sets dish stats and standing for you and your roommate
@@ -33,9 +35,11 @@ public class DishMaster3000 {
      */
     public static void display(boolean displayPercent) {
         System.out.println();
+        System.out.println("~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
         USER.display(displayPercent);
         System.out.println();
         ROOMMATE.display(displayPercent);
+        System.out.println("~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
         System.out.println();
     }
 
@@ -98,7 +102,6 @@ public class DishMaster3000 {
             System.err.println("Something went wrong :(");
         }
         System.out.print("Done!\n");
-        scanner.close();
     }
 
     public static void oldUser() {
@@ -137,6 +140,56 @@ public class DishMaster3000 {
             System.err.println("Something went wrong :( " + e.getMessage());
         }
     }
+
+    public static boolean checkChoice(String choice) {
+        if (choice.equalsIgnoreCase("exit")) {
+            loop = false;
+        } else if (choice.equalsIgnoreCase("save")) {
+            System.out.println("What would you like to call the file?");
+            writeFile(scanner.nextLine());
+        } else if (choice.equalsIgnoreCase("read")) {
+            System.out.println("Please type the name of the file you would like to read.");
+            readFile(scanner.nextLine());
+        } else if (choice.equalsIgnoreCase("add")) {
+            System.out.println("Yippee!! Who did the dishes this time?");
+            String whoDunnit = scanner.nextLine();
+            if (whoDunnit.equalsIgnoreCase(USER.getName()))
+                USER.add();
+            else if (whoDunnit.equalsIgnoreCase(ROOMMATE.getName()))
+                ROOMMATE.add();
+            else {
+                System.out.println("Hmm, I don't know who that is. Please type " 
+                + USER.getName() + " or " + ROOMMATE.getName() + ".");
+            }
+        } else if (choice.equalsIgnoreCase("change name")) {
+            System.out.println("Type u to change your name or r to change your roommate's name!");
+            String input = scanner.nextLine();
+            if(input.equalsIgnoreCase("u")) {
+                System.out.println("What would you like to change your name to?");
+                USER.setName(scanner.nextLine());
+                System.out.println("Name changed successfully!");
+            } else if(input.equalsIgnoreCase("r")) {
+                System.out.println("What would you like to change their name to?");
+                ROOMMATE.setName(scanner.nextLine());
+                System.out.println("Name changed successfully!");
+            }
+        } else if (choice.equalsIgnoreCase("toggle display")) {
+            if(displayPercent) {
+                displayPercent = false;
+                System.out.println("I will now display integers!");
+            } else {
+                displayPercent = true;
+                System.out.println("I will now display percentages!");
+            }
+        } else if (choice.equalsIgnoreCase("?")) {
+            System.out.println("Diplay options here");
+        } else if (choice.equalsIgnoreCase("more")) {
+            System.out.println("Display extra settings here");
+        } else {
+            return false;
+        }
+        return true;
+    }
         
     public static void main(String[] args) {
         String ui;
@@ -161,7 +214,17 @@ public class DishMaster3000 {
             }
         }
         
-        display(false);
+        do {
+            display(displayPercent);
+            boolean Done = false;
+            while(!Done) {
+                System.out.println("What would you like to do? Type \"?\" to see all options.");
+                String choice = scanner.nextLine().trim();
+                if (checkChoice(choice))
+                    Done = true;
+            }
+        } while (loop);
+
 
         scanner.close();
     }
