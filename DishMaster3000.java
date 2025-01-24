@@ -6,8 +6,9 @@ public class DishMaster3000 {
 
     static int fileCount;
     static final int DELAY = 700;  // miliseconds
-    static final Person USER = new Person("no name");  // insert your name here
-    static final Person ROOMMATE = new Person("no name");  // insert your roommate's name here
+    static final Person USER = new Person();
+    static final Person ROOMMATE = new Person();
+    static Scanner scanner = new Scanner(System.in);
 
     /**
      * Sets dish stats and standing for you and your roommate
@@ -49,25 +50,38 @@ public class DishMaster3000 {
         }
     }
 
+    public static int validNum(int n) {
+        int num = n;
+        boolean valid = false;
+        while (!valid) {
+            if(num >= 0) {
+                valid = true;
+            } else {
+                System.out.print("\nHow is that possible?! Please type the real number! ");
+                num = scanner.nextInt();
+            }
+        }
+        return num;
+    }
+
     public static void newUser() {
-        Scanner scanner = new Scanner(System.in);
 
     System.out.println("Welcome newcomer!!\n");
     System.out.println("What is your name?");
     USER.setName(scanner.nextLine());
 
     System.out.print("Hello " + USER.getName() + "!! How many times have you done the dishes? ");
-    int userCount = scanner.nextInt();
+    int userCount = validNum(scanner.nextInt());
     scanner.nextLine();
 
     System.out.println("\nAnd your roommate's name?");
     ROOMMATE.setName(scanner.nextLine());
 
     System.out.print("How many times has " + ROOMMATE.getName() + " done the dishes? ");
-    int roommateCount = scanner.nextInt();
+    int roommateCount = validNum(scanner.nextInt());
     scanner.nextLine();
 
-setDishStats(userCount, roommateCount);
+    setDishStats(userCount, roommateCount);
 
         System.out.print("\nAwesome! Creating profiles now");
         try {
@@ -82,20 +96,36 @@ setDishStats(userCount, roommateCount);
         System.out.print("Done!\n");
         scanner.close();
     }
+
+    public static void oldUser() {
+        System.out.println("Please type the name of the file below :)");
+        
+
+    }
+        
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         String ui;
 
         System.out.println("Welcome to DishMaster3000! Are YOU are Dish Master!?");
         System.out.println();
         System.out.println("Would you like to use a previously written file?");
-        ui = scanner.nextLine();
-        if (ui.equalsIgnoreCase("y") || ui.equalsIgnoreCase("yes")) {
-            System.out.println("Please type the name of the file below.");
-        } else if (ui.equalsIgnoreCase("n") || ui.equalsIgnoreCase("no")) {
-            newUser();
-        }  // end of creating new profiles
-
+        boolean valid = false;
+        while (!valid) {
+            ui = scanner.nextLine();
+            if (ui.equalsIgnoreCase("y") || ui.equalsIgnoreCase("yes")) {
+                valid = true;
+                oldUser();
+            } else if (ui.equalsIgnoreCase("n") || ui.equalsIgnoreCase("no")) {
+                valid = true;
+                newUser();
+            } else if (ui.equalsIgnoreCase("y/n") || ui.equalsIgnoreCase("yes/no")) {
+                System.out.println("You think you're sooo funny don't you?");
+                System.out.println("Type y/n or yes/no.");
+            } else {
+                System.out.println("Please type y/n or yes/no!");
+            }
+        }
+        
         display(false);
 
         scanner.close();

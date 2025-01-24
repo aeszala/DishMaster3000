@@ -4,8 +4,8 @@ public class Person {
     private int dishCount;
     public static int total;
 
-    public Person(String name) {
-        this.name = name;
+    public Person() {
+        this.name = "no name";
         this.standing = "TBD";
         this.dishCount = -1;
     }
