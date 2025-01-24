@@ -110,21 +110,26 @@ public class DishMaster3000 {
     }
 
     public static void readFile(String fileName) {
+        int userDC = 0;
+        int roommateDC = 0;
         try (Scanner scanner = new Scanner(new File(fileName))) {
             // read user data
             if (scanner.hasNextLine()) {
                 String[] userData = scanner.nextLine().split(",");
                 USER.setName(userData[0]);
-                USER.setDishCount(Integer.parseInt(userData[1]));
-                USER.setStanding();
+                userDC = Integer.parseInt(userData[1]);
             }
             // read roommate data
             if (scanner.hasNextLine()) {
                 String[] roommateData = scanner.nextLine().split(",");
                 ROOMMATE.setName(roommateData[0]);
-                ROOMMATE.setDishCount(Integer.parseInt(roommateData[1]));
-                ROOMMATE.setStanding();
+                roommateDC = Integer.parseInt(roommateData[1]);
             }
+            Person.total = userDC + roommateDC;
+            USER.setDishCount(userDC);
+            ROOMMATE.setDishCount(roommateDC);
+            USER.setStanding();
+            ROOMMATE.setStanding();
             System.out.println("File " + fileName + " read successfully!");
         } catch (FileNotFoundException e) {
             System.err.println("I couldn't find that file! " + e.getMessage());
@@ -182,13 +187,24 @@ public class DishMaster3000 {
                 System.out.println("I will now display percentages!");
             }
         } else if (choice.equalsIgnoreCase("?")) {
-            System.out.println("Diplay options here");
+            Options();
         } else if (choice.equalsIgnoreCase("more")) {
             System.out.println("Display extra settings here");
         } else {
             return false;
         }
         return true;
+    }
+
+    public static void Options() {
+        System.out.println("?  -  Displays all options\n");
+        System.out.println("exit  -  Exits the program (don't forget to save!)\n");
+        System.out.println("save  -  Saves your data to a text file\n");
+        System.out.println("read  -  Reads data from a pre-existing file\n");
+        System.out.println("add  -  Use this to add to you or your roommates dish count\n");
+        System.out.println("toggle display  -  Changes display from integers to percentages, and vise versa\n");
+        System.out.println("change name  -  This is how you change you or your roommate's name\n");
+        // System.out.println("more  -  Displays more customization options\n");
     }
         
     public static void main(String[] args) {
