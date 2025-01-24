@@ -197,7 +197,7 @@ public class DishMaster3000 {
     }
 
     public static void Options() {
-        System.out.println("?  -  Displays all options\n");
+        System.out.println("\n?  -  Displays all options\n");
         System.out.println("exit  -  Exits the program (don't forget to save!)\n");
         System.out.println("save  -  Saves your data to a text file\n");
         System.out.println("read  -  Reads data from a pre-existing file\n");
